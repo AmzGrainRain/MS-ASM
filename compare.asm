@@ -1,0 +1,33 @@
+DSEG SEGMENT
+  X DW 1234H
+  Y DW 4567H
+  Z DW 1000H
+  MAX DW ?
+DSEG ENDS
+
+SSEG SEGMENT
+SSEG ENDS
+
+CSEG SEGMENT
+  ASSUME DS:DSEG, SS:SSEG, CS:CSEG
+  MAIN:
+    MOV AX, DSEG
+    MOV DS, AX
+
+    MOV AX, X
+    CMP AX, Y   ; AX ? Y
+    JGE N1      ; AX > Y
+    MOV AX, Y   ; FALSE
+
+  N1:
+    CMP AX, Z   ; AX ? Z
+    JGE N2      ; AX > Z
+    MOV AX, Z   ; FALSE
+  
+  N2:
+    MOV MAX, AX
+  
+  MOV AX, 4CH
+  INT 21H
+CSEG ENDS
+END MAIN
